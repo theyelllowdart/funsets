@@ -111,4 +111,63 @@ class FunSetSuite extends FunSuite {
   }
 
 
+  test("intersect") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      val s = intersect(set1, singletonSet(2))
+      assert(!contains(s, 1), "intersect 1")
+      assert(contains(s, 2), "intersect 2")
+      assert(!contains(s, 3), "intersect 3")
+    }
+  }
+
+  test("diff") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      val s = diff(set1, singletonSet(2))
+      assert(contains(s, 1), "diff 1")
+      assert(!contains(s, 2), "diff 2")
+      assert(contains(s, 3), "diff 3")
+    }
+  }
+
+  test("filter") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      val s = filter(set1, (x: Int) => x % 2 == 1)
+      assert(contains(s, 1), "filter 1")
+      assert(!contains(s, 2), "filter 2")
+      assert(contains(s, 3), "filter 3")
+    }
+  }
+
+  test("forall") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      assert(!forall(set1, (x: Int) => x % 2 == 1), "forall odd")
+      assert(forall(set1, (x: Int) => x > 0), "forall > 0")
+    }
+  }
+
+  test("exists") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      assert(exists(set1, (x: Int) => x % 2 == 1), "exists odd")
+      assert(exists(set1, (x: Int) => x > 0), "exists > 0")
+    }
+  }
+
+  test("map") {
+    new TestSets {
+      val set1 = union(union(singletonSet(1), singletonSet(2)), singletonSet(3))
+      val s = map(set1, (x: Int) => x * 2)
+      assert(!contains(s, 1), "map 1")
+      assert(contains(s, 2), "map 2")
+      assert(!contains(s, 3), "map 3")
+      assert(contains(s, 4), "map 4")
+      assert(!contains(s, 5), "map 5")
+      assert(contains(s, 6), "map 6")
+      assert(!contains(s, 7), "map 7")
+    }
+  }
 }
